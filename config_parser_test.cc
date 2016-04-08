@@ -3,6 +3,7 @@
 #include <sstream>
 #include <string>
 
+<<<<<<< HEAD
 class NginxStringConfigTest : public ::testing::Test {
 protected:
 	bool ParseString(const std::string& config_string) {
@@ -13,6 +14,8 @@ private:
 	NginxConfigParser parser_;
 	NginxConfig config_;
 };
+=======
+>>>>>>> unit-tests
 
 TEST(NginxConfigParserTest, SimpleConfig) {
   NginxConfigParser parser;
@@ -59,3 +62,38 @@ TEST(NginxConfigParserTest, LocationConfig) {
 	EXPECT_TRUE(success);			
 }
 
+<<<<<<< HEAD
+=======
+// Tesing for false configuration
+TEST(NginxConfigParserTest, InvalidConfig) {
+	NginxConfigParser parser;
+	NginxConfig out_config;
+	bool success = parser.Parse("invalid_config", &out_config);
+
+	EXPECT_FALSE(success);			
+}
+
+class NginxStringConfigTest : public ::testing::Test {
+protected:
+	bool ParseString(const std::string& config_string) {
+		std::stringstream config_stream(config_string);
+		return parser_.Parse(&config_stream,  &out_config_);
+	}
+	NginxConfigParser parser_;
+	NginxConfig out_config_;
+};
+
+// Testing using class
+TEST_F(NginxStringConfigTest, BasicParsing) {
+	EXPECT_TRUE(ParseString("server { server info here; }"));
+	EXPECT_EQ(1, out_config_.statements_.size());
+}
+
+// Testing  tostring method
+TEST(NginxConfigTest, ToString) {
+	NginxConfigStatement statement;
+	statement.tokens_.push_back("listen");
+	statement.tokens_.push_back("80");
+	EXPECT_EQ("listen 80;\n", statement.ToString(0));
+}
+>>>>>>> unit-tests
